@@ -3,6 +3,8 @@ import { HourlyForecastPage } from '../page-objects/hourly-forecast-page';
 
 
 test('weather', async ({ page }) => {
+  
   const HourlyForecast = new HourlyForecastPage(page);
-  await HourlyForecast.goto();
+  const city: string = 'ISANTO172';
+  await HourlyForecast.goto(city);
 });

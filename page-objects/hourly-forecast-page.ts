@@ -9,8 +9,8 @@ export class HourlyForecastPage {
     this.cityHeader = page.locator('//lib-city-header');
   }
 
-  async goto() {
-    await this.page.goto('https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172');
+  async goto(city: string) {
+    await this.page.goto(`https://www.wunderground.com/hourly/do/santo-domingo/${city}`);
   }
 
 }
