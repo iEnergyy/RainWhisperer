@@ -10,7 +10,8 @@ export class HourlyForecastPage {
   }
 
   async goto(city: string) {
-    await this.page.goto(`https://www.wunderground.com/hourly/do/santo-domingo/${city}`);
+    await this.page.goto(
+      `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
+    );
   }
-
 }
