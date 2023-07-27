@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import * as Papa from 'papaparse';
 
 type WeatherInfo = {
   time: string;
@@ -64,5 +65,14 @@ export class HourlyForecastPage {
         return hourlyWeatherInfo;
       }
     );
+  }
+
+  convertToCSV(data: WeatherInfo[]): string {
+    const csv = Papa.unparse(data, {
+      header: true,
+      quotes: true,
+    });
+
+    return csv;
   }
 }

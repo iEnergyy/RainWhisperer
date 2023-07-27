@@ -9,5 +9,8 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.36.2"
+  },
+  "dependencies": {
+    "papaparse": "^5.4.1"
   }
 }
