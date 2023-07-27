@@ -51,9 +51,6 @@ export class HourlyForecastPage {
             hour_row.querySelector(
               'td[class*="cloudCover"] > lib-display-unit > span'
             )?.textContent ?? 'ERROR, check code.';
-          // console.log(
-          //   `Time: ${time}, Temperature: ${temperature}, Thermal Sensation - Feels Like: ${thermalSensation}, Chance of Precipitation: ${chanceOfPrecipitation}, Cloud Cover: ${cloudCover}`
-          // );
           hourlyWeatherInfo.push({
             time: time,
             temperature: temperature,
