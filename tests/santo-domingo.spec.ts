@@ -8,6 +8,6 @@ test('weather', async ({ page }) => {
   const city: string = 'ISANTO172';
   await HourlyForecast.goto(city);
   const dayForecast = await HourlyForecast.getHourlyData();
-  const csvData = HourlyForecast.convertToCSV(dayForecast);
-  fs.writeFileSync('weather_forecast.csv', csvData);
+  // const csvData = HourlyForecast.convertToCSV(dayForecast);
+  // fs.writeFileSync('weather_forecast.csv', csvData);
 });
