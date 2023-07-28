@@ -57,10 +57,8 @@ jobs:
           secure: true
           # Optional (recommended) mail server username:
           username: ${{secrets.MAIL_USERNAME}}
-          #   username: weather.whisperer.mg@gmail.com
           # Optional (recommended) mail server password:
           password: ${{secrets.MAIL_PASSWORD}}
-          #   password: 3ncryptedP@ssw0rd
           # Required mail subject:
           subject: Weather Whisperer artifacts
           # Required recipients' addresses:
