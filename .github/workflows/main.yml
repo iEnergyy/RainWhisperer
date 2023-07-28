@@ -1,7 +1,7 @@
 name: Run Playwright tests
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, cicd-upload-csv]
   pull_request:
     branches: [main, master]
 jobs:
