@@ -22,6 +22,9 @@ export class HourlyForecastPage {
     await this.page.goto(
       `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
     );
+    expect(this.page).toHaveURL(
+      `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
+    );
   }
 
   async getHourlyData(): Promise<WeatherInfo[]> {
