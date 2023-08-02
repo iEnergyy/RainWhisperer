@@ -77,7 +77,7 @@ export class HourlyForecastPage {
     return hourlyWeatherData;
   }
 
-  // TODO: create method that gets forecast for 3 days, get help with the getHourly and use date inputs to run it.
+  // Method that gets forecast for 3 days, get help with the getHourly and use date inputs to run it.
   async getThreeDaysForecast(): Promise<WeatherInfo[]> {
     // gets today forecast
     const todaysDate: string = new Date().toISOString().slice(0, 10);
