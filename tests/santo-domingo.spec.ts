@@ -9,7 +9,6 @@ test('weather', async ({ page }) => {
     .toLocaleDateString('en-GB')
     .split('/')
     .join('_');
-  await HourlyForecast.goto(city);
   const threeDayForecast = await HourlyForecast.getThreeDaysForecast();
   const csvData = HourlyForecast.convertToCSV(threeDayForecast);
   // Create a directory to store the file if it doesn't exist
