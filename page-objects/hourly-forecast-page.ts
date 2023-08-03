@@ -23,7 +23,8 @@ export class HourlyForecastPage {
     await this.page.goto(
       `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
     ),
-      { timeout: 60000 };
+      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.cityHeader.waitFor();
     await this.page.waitForURL(
       `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
     );
@@ -80,11 +81,12 @@ export class HourlyForecastPage {
   // Method that gets forecast for 3 days, get help with the getHourly and use date inputs to run it.
   async getThreeDaysForecast(): Promise<WeatherInfo[]> {
     // gets today forecast
-    const todaysDate: string = new Date().toISOString().slice(0, 10);
+    const todaysDate: string = new Date().toISOString().slice(0, 10); //utc is making fun of me on js.
     await this.page.goto(
       `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${todaysDate}`
     ),
-      { timeout: 60000 };
+      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.cityHeader.waitFor();
 
     const todaysForecast = await this.getHourlyData(todaysDate);
 
@@ -95,7 +97,8 @@ export class HourlyForecastPage {
     await this.page.goto(
       `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${tomorrowsDate}`
     ),
-      { timeout: 60000 };
+      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.cityHeader.waitFor();
 
     const tomorrowsForecast = await this.getHourlyData(tomorrowsDate);
 
@@ -106,7 +109,8 @@ export class HourlyForecastPage {
     await this.page.goto(
       `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${afterTomorrowsDate}`
     ),
-      { timeout: 60000 };
+      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.cityHeader.waitFor();
 
     const afterTomorrowsForecast = await this.getHourlyData(afterTomorrowsDate);
 
