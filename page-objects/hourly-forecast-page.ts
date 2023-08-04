@@ -4,10 +4,16 @@ import * as Papa from 'papaparse';
 type WeatherInfo = {
   date: string;
   time: string;
+  conditions: string;
   temperature: string;
   thermalSensation: string;
   chanceOfPrecipitation: string;
+  liquidPrecipitation: string;
   cloudCover: string;
+  dewPoint: string;
+  humidity: string;
+  wind: string;
+  pressure: string;
 };
 
 export class HourlyForecastPage {
@@ -57,13 +63,43 @@ export class HourlyForecastPage {
             hour_row.querySelector(
               'td[class*="cloudCover"] > lib-display-unit > span'
             )?.textContent ?? 'ERROR, check code.';
+          const conditions =
+            hour_row.querySelector(
+              'td[class*="conditions"]  span > span[class="show-for-medium conditions"]'
+            )?.textContent ?? 'ERROR, check code.';
+          const liquidPrecipitation =
+            hour_row.querySelector(
+              'td[class*="liquidPrecipitation"] > a > lib-display-unit > span'
+            )?.textContent ?? 'ERROR, check code.';
+          const dewPoint =
+            hour_row.querySelector(
+              'td[class*="dewPoint"] > lib-display-unit > span'
+            )?.textContent ?? 'ERROR, check code.';
+          const humidity =
+            hour_row.querySelector(
+              'td[class*="humidity"] > lib-display-unit > span'
+            )?.textContent ?? 'ERROR, check code.';
+          const wind =
+            hour_row.querySelector(
+              'td[class*="wind"] > lib-display-unit > span'
+            )?.textContent ?? 'ERROR, check code.';
+          const pressure =
+            hour_row.querySelector(
+              'td[class*="pressure"] > lib-display-unit > span'
+            )?.textContent ?? 'ERROR, check code.';
           hourlyWeatherInfo.push({
             date: 'TBD',
             time: time,
+            conditions: conditions,
             temperature: temperature,
             thermalSensation: thermalSensation,
             chanceOfPrecipitation: chanceOfPrecipitation,
+            liquidPrecipitation: liquidPrecipitation,
             cloudCover: cloudCover,
+            dewPoint: dewPoint,
+            humidity: humidity,
+            wind: wind,
+            pressure: pressure,
           });
         });
         return hourlyWeatherInfo;
