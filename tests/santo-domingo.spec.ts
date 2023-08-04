@@ -9,9 +9,8 @@ test('weather', async ({ page }) => {
     .toLocaleDateString('en-GB')
     .split('/')
     .join('_');
-  await HourlyForecast.goto(city);
-  const dayForecast = await HourlyForecast.getHourlyData();
-  const csvData = HourlyForecast.convertToCSV(dayForecast);
+  const threeDayForecast = await HourlyForecast.getThreeDaysForecast();
+  const csvData = HourlyForecast.convertToCSV(threeDayForecast);
   // Create a directory to store the file if it doesn't exist
   const directory = './weather-forecasts';
   if (!fs.existsSync(directory)) {
@@ -19,7 +18,7 @@ test('weather', async ({ page }) => {
   }
   // write the csv
   fs.writeFileSync(
-    `${directory}/santo_domingo_${todaysDate}_forecast.csv`,
+    `${directory}/santo_domingo_${todaysDate}_3_day_forecast.csv`,
     csvData
   );
 });
