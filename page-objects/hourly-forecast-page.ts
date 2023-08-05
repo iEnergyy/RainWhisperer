@@ -159,7 +159,22 @@ export class HourlyForecastPage {
   }
   // TODO: move this method to another class.
   convertToCSV(data: WeatherInfo[]): string {
-    const csv = Papa.unparse(data, {
+    // Map the original data to a modified version with custom headers
+    const modifiedData = data.map((item) => ({
+      Time: item.time,
+      Conditions: item.conditions,
+      'Temp.': item.temperature,
+      'Feels Like': item.thermalSensation,
+      Precip: item.chanceOfPrecipitation,
+      Amount: item.liquidPrecipitation,
+      'Cloud Cover': item.cloudCover,
+      'Dew Point': item.dewPoint,
+      Humidity: item.humidity,
+      Wind: item.wind,
+      Pressure: item.pressure,
+    }));
+
+    const csv = Papa.unparse(modifiedData, {
       header: true,
       quotes: true,
     });
