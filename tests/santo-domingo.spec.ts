@@ -19,6 +19,7 @@ test('weather', async ({ page }) => {
   // write the csv
   fs.writeFileSync(
     `${directory}/santo_domingo_${todaysDate}_3_day_forecast.csv`,
-    csvData
+    csvData,
+    { encoding: 'utf8' }
   );
 });
