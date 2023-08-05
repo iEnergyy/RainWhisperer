@@ -115,12 +115,10 @@ export class HourlyForecastPage {
   }
 
   // Method that gets forecast for 3 days, get help with the getHourly and use date inputs to run it.
-  async getThreeDaysForecast(): Promise<WeatherInfo[]> {
+  async getThreeDaysForecast(city: string): Promise<WeatherInfo[]> {
     // gets today forecast
     const todaysDate: string = new Date().toISOString().slice(0, 10); //utc is making fun of me on js.
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${todaysDate}`
-    ),
+    await this.page.goto(`${city}/date/${todaysDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
@@ -130,9 +128,7 @@ export class HourlyForecastPage {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowsDate: string = tomorrow.toISOString().slice(0, 10);
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${tomorrowsDate}`
-    ),
+    await this.page.goto(`${city}/date/${tomorrowsDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
@@ -142,9 +138,7 @@ export class HourlyForecastPage {
     const afterTomorrow = new Date();
     afterTomorrow.setDate(afterTomorrow.getDate() + 2);
     const afterTomorrowsDate: string = afterTomorrow.toISOString().slice(0, 10);
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${afterTomorrowsDate}`
-    ),
+    await this.page.goto(`${city}/date/${afterTomorrowsDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
@@ -161,6 +155,7 @@ export class HourlyForecastPage {
   convertToCSV(data: WeatherInfo[]): string {
     // Map the original data to a modified version with custom headers
     const modifiedData = data.map((item) => ({
+      Date: item.date,
       Time: item.time,
       Conditions: item.conditions,
       'Temp.': item.temperature,
