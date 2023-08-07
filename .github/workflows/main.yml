@@ -55,6 +55,6 @@ jobs:
           secure: false
           subject: 'Weather Forecast'
           to: itsenergyy05@gmail.com
-          from: Rain Whisperer
+          from: ${{ secrets.MAIL_PASSWORD }}
           body: Build job of ${{github.repository}} completed successfully!
-          attachments: my-artifacts.zip
+          # attachments: my-artifacts.zip
