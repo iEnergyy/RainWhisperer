@@ -1,0 +1,28 @@
+{
+  "cities": [
+    {
+      "name": "Santo_Domingo",
+      "link": "https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172"
+    },
+    {
+      "name": "Santiago",
+      "link": "https://www.wunderground.com/hourly/do/santiago/MDST"
+    },
+    {
+      "name": "Nigua",
+      "link": "https://www.wunderground.com/hourly/do/san-gregorio-de-nigua/ISANGR1"
+    },
+    {
+      "name": "AILA",
+      "link": "https://www.wunderground.com/hourly/MDSD"
+    },
+    {
+      "name": "Bonao",
+      "link": "https://www.wunderground.com/hourly/do/bonao/IBONAO9"
+    },
+    {
+      "name": "Sosua",
+      "link": "https://www.wunderground.com/hourly/MDPP"
+    }
+  ]
+}

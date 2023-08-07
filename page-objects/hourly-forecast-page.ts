@@ -115,40 +115,90 @@ export class HourlyForecastPage {
   }
 
   // Method that gets forecast for 3 days, get help with the getHourly and use date inputs to run it.
-  async getThreeDaysForecast(): Promise<WeatherInfo[]> {
+  async getThreeDaysForecast(city: string): Promise<WeatherInfo[]> {
     // gets today forecast
     const todaysDate: string = new Date().toISOString().slice(0, 10); //utc is making fun of me on js.
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${todaysDate}`
-    ),
+    await this.page.goto(`${city}/date/${todaysDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    // verify it got there.
+    let todayForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    // Set a maximum number of retries to prevent infinite looping
+    const maxRetries = 10;
+    let retries = 0;
+
+    while (todayForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      todayForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+
+    await expect(todayForecastElements.length).toBeGreaterThanOrEqual(1);
     const todaysForecast = await this.getHourlyData(todaysDate);
+    // verify it is not empty.
+    await expect(todaysForecast.length).toBeGreaterThan(1);
 
     // gets tomorrow forecast
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowsDate: string = tomorrow.toISOString().slice(0, 10);
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${tomorrowsDate}`
-    ),
+    await this.page.goto(`${city}/date/${tomorrowsDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    let tomorrowForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    retries = 0;
+
+    while (tomorrowForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      tomorrowForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+    await expect(tomorrowForecastElements.length).toBeGreaterThanOrEqual(1);
     const tomorrowsForecast = await this.getHourlyData(tomorrowsDate);
+    await expect(tomorrowsForecast.length).toBeGreaterThan(1);
 
     // gets after tomorrow forecast
     const afterTomorrow = new Date();
     afterTomorrow.setDate(afterTomorrow.getDate() + 2);
     const afterTomorrowsDate: string = afterTomorrow.toISOString().slice(0, 10);
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/ISANTO172/date/${afterTomorrowsDate}`
-    ),
+    await this.page.goto(`${city}/date/${afterTomorrowsDate}`),
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    let afterTomorrowForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    retries = 0;
+
+    while (afterTomorrowForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      afterTomorrowForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+
+    await expect(afterTomorrowForecastElements.length).toBeGreaterThanOrEqual(
+      1
+    );
     const afterTomorrowsForecast = await this.getHourlyData(afterTomorrowsDate);
+    await expect(afterTomorrowsForecast.length).toBeGreaterThan(1);
 
     const totalForecasts = [
       ...todaysForecast,
@@ -161,6 +211,7 @@ export class HourlyForecastPage {
   convertToCSV(data: WeatherInfo[]): string {
     // Map the original data to a modified version with custom headers
     const modifiedData = data.map((item) => ({
+      Date: item.date,
       Time: item.time,
       Conditions: item.conditions,
       'Temp.': item.temperature,
