@@ -27,3 +27,34 @@ jobs:
             playwright-report/
             weather-forecasts/
           retention-days: 30
+
+  send_email:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: my-artifacts
+
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.elasticemail.com
+          server_port: 2525
+          username: ${{ secrets.MAIL_PASSWORD }}
+          password: ${{ secrets.MAIL_USERNAME }}
+          secure: false
+          subject: 'Weather Forecast'
+          to: itsenergyy05@gmail.com
+          from: Rain Whisperer
+          body: Build job of ${{github.repository}} completed successfully!
+          attachments: my-artifacts.zip
