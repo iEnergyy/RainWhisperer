@@ -50,11 +50,11 @@ jobs:
         with:
           server_address: smtp.elasticemail.com
           server_port: 2525
-          username: ${{ secrets.MAIL_PASSWORD }}
-          password: ${{ secrets.MAIL_USERNAME }}
+          username: 'rain.whisperer.mg@gmail.com'
+          password: '71D8F03517ACEA35B5DCBECA2FADFE58FB81'
           secure: false
           subject: 'Weather Forecast'
           to: itsenergyy05@gmail.com
-          from: ${{ secrets.MAIL_USERNAME }}
+          from: 'rain.whisperer.mg@gmail.com'
           body: Build job of ${{github.repository}} completed successfully!
           # attachments: my-artifacts.zip
