@@ -122,7 +122,28 @@ export class HourlyForecastPage {
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    // verify it got there.
+    let todayForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    // Set a maximum number of retries to prevent infinite looping
+    const maxRetries = 10;
+    let retries = 0;
+
+    while (todayForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      todayForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+
+    await expect(todayForecastElements.length).toBeGreaterThanOrEqual(1);
     const todaysForecast = await this.getHourlyData(todaysDate);
+    // verify it is not empty.
+    await expect(todaysForecast.length).toBeGreaterThan(1);
 
     // gets tomorrow forecast
     const tomorrow = new Date();
@@ -132,7 +153,23 @@ export class HourlyForecastPage {
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    let tomorrowForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    retries = 0;
+
+    while (tomorrowForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      tomorrowForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+    await expect(tomorrowForecastElements.length).toBeGreaterThanOrEqual(1);
     const tomorrowsForecast = await this.getHourlyData(tomorrowsDate);
+    await expect(tomorrowsForecast.length).toBeGreaterThan(1);
 
     // gets after tomorrow forecast
     const afterTomorrow = new Date();
@@ -142,7 +179,26 @@ export class HourlyForecastPage {
       { timeout: 60000, waitUntil: 'domcontentloaded' };
     await this.cityHeader.waitFor();
 
+    let afterTomorrowForecastElements = await this.page.$$(
+      '#hourly-forecast-table > tbody > tr'
+    );
+
+    retries = 0;
+
+    while (afterTomorrowForecastElements.length === 0 && retries < maxRetries) {
+      // Wait for a short time before checking again
+      await this.page.waitForTimeout(1000); // Wait for 1 second
+      afterTomorrowForecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+      retries++;
+    }
+
+    await expect(afterTomorrowForecastElements.length).toBeGreaterThanOrEqual(
+      1
+    );
     const afterTomorrowsForecast = await this.getHourlyData(afterTomorrowsDate);
+    await expect(afterTomorrowsForecast.length).toBeGreaterThan(1);
 
     const totalForecasts = [
       ...todaysForecast,
