@@ -45,6 +45,9 @@ jobs:
         with:
           name: my-artifacts
 
+      - name: Debug - List Artifacts
+        run: ls -R ${{ steps.download.outputs.artifacts_path }}
+
       - name: Send Email
         uses: dawidd6/action-send-mail@v3
         with:
@@ -56,5 +59,6 @@ jobs:
           subject: 'Weather Forecast'
           to: itsenergyy05@gmail.com
           from: 'rain.whisperer.mg@gmail.com'
-          body: Build job of ${{github.repository}} completed successfully!
-          attachments: my-artifacts.zip
+          body: Build job of ${{github.repository}} copleted successfully!
+          # attachments: my-artifacts.zip
+          attachments: ${{ steps.download.outputs.artifacts_path }}/my-artifacts.zip
