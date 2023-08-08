@@ -59,6 +59,6 @@ jobs:
           subject: 'Weather Forecast'
           to: itsenergyy05@gmail.com
           from: 'rain.whisperer.mg@gmail.com'
-          body: Build job of ${{github.repository}} copleted successfully!
+          body: Build job of ${{github.repository}} completed successfully!
           # attachments: my-artifacts.zip
-          attachments: ${{ steps.download.outputs.artifacts_path }}/my-artifacts.zip
+          attachments: '*.csv'
