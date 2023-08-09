@@ -4,6 +4,8 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  schedule:
+    - cron: '0 15 * * *' # Run every day at 11 AM UTC-4 (15:00 UTC)
 jobs:
   test:
     timeout-minutes: 10
@@ -61,7 +63,7 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           secure: false
           subject: 'Weather Forecast - ${{steps.date.outputs.date}}'
-          to: itsenergyy05@gmail.com
+          to: ${{secrets.MAIL_LIST}}
           from: ${{secrets.MAIL_USERNAME}}
           body: Build job of ${{github.repository}} weather forecast has been completed successfully!
           attachments: ./weather-forecasts/*.csv
