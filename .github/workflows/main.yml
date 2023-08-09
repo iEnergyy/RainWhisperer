@@ -48,15 +48,19 @@ jobs:
       - name: Debug - List Artifacts
         run: ls -R ${{ steps.download.outputs.artifacts_path }}
 
+      - name: Set Today's Date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Send Email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.elasticemail.com
           server_port: 2525
           username: ${{secrets.MAIL_USERNAME}}
-          password: '71D8F03517ACEA35B5DCBECA2FADFE58FB81'
+          password: ${{secrets.MAIL_PASSWORD}}
           secure: false
-          subject: "Weather Forecast - ${{ format('yyyy-MM-dd') }}"
+          subject: 'Weather Forecast - ${{steps.date.outputs.date}}'
           to: itsenergyy05@gmail.com
           from: ${{secrets.MAIL_USERNAME}}
           body: Build job of ${{github.repository}} weather forecast has been completed successfully!
