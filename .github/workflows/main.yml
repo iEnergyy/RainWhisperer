@@ -56,9 +56,8 @@ jobs:
           username: 'rain.whisperer.mg@gmail.com'
           password: '71D8F03517ACEA35B5DCBECA2FADFE58FB81'
           secure: false
-          subject: 'Weather Forecast'
+          subject: 'Weather Forecast - $(date +%Y-%m-%d) Run #$GITHUB_RUN_NUMBER'
           to: itsenergyy05@gmail.com
-          from: 'rain.whisperer.mg@gmail.com'
-          body: Build job of ${{github.repository}} completed successfully!
-          # attachments: my-artifacts.zip
+          from: ${{secrets.MAIL_USERNAME}}
+          body: Build job of ${{github.repository}} weather forecast has been completed successfully!
           attachments: ./weather-forecasts/*.csv
