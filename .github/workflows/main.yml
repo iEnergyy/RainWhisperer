@@ -53,10 +53,10 @@ jobs:
         with:
           server_address: smtp.elasticemail.com
           server_port: 2525
-          username: 'rain.whisperer.mg@gmail.com'
+          username: ${{secrets.MAIL_USERNAME}}
           password: '71D8F03517ACEA35B5DCBECA2FADFE58FB81'
           secure: false
-          subject: 'Weather Forecast - $(date +%Y-%m-%d) Run #$GITHUB_RUN_NUMBER'
+          subject: "Weather Forecast - ${{ format('yyyy-MM-dd') }}"
           to: itsenergyy05@gmail.com
           from: ${{secrets.MAIL_USERNAME}}
           body: Build job of ${{github.repository}} weather forecast has been completed successfully!
