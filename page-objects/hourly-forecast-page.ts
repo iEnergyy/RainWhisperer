@@ -25,17 +25,17 @@ export class HourlyForecastPage {
     this.cityHeader = page.locator('//lib-city-header');
   }
 
-  async goto(city: string) {
-    await this.page.goto(
-      `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
-    ),
-      { timeout: 60000, waitUntil: 'domcontentloaded' };
-    await this.cityHeader.waitFor();
-    await this.page.waitForURL(
-      `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
-    );
-    // TODO: add good assert..
-  }
+  // async goto(city: string) {
+  //   await this.page.goto(
+  //     `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
+  //   ),
+  //     { timeout: 60000, waitUntil: 'domcontentloaded' };
+  //   await this.cityHeader.waitFor();
+  //   await this.page.waitForURL(
+  //     `https://www.wunderground.com/hourly/do/santo-domingo/${city}`
+  //   );
+  //   // TODO: add good assert..
+  // }
 
   async getHourlyData(dateOfDay: string): Promise<WeatherInfo[]> {
     const hourlyDataArray: Promise<WeatherInfo[]> = this.page.$$eval(
@@ -118,8 +118,7 @@ export class HourlyForecastPage {
   async getThreeDaysForecast(city: string): Promise<WeatherInfo[]> {
     // gets today forecast
     const todaysDate: string = new Date().toISOString().slice(0, 10); //utc is making fun of me on js.
-    await this.page.goto(`${city}/date/${todaysDate}`),
-      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.page.goto(`${city}/date/${todaysDate}`, { timeout: 60000, waitUntil: 'domcontentloaded' });
     await this.cityHeader.waitFor();
 
     // verify it got there.
@@ -140,17 +139,16 @@ export class HourlyForecastPage {
       retries++;
     }
 
-    await expect(todayForecastElements.length).toBeGreaterThanOrEqual(1);
+    expect(todayForecastElements.length).toBeGreaterThanOrEqual(1);
     const todaysForecast = await this.getHourlyData(todaysDate);
     // verify it is not empty.
-    await expect(todaysForecast.length).toBeGreaterThan(1);
+    expect(todaysForecast.length).toBeGreaterThan(1);
 
     // gets tomorrow forecast
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowsDate: string = tomorrow.toISOString().slice(0, 10);
-    await this.page.goto(`${city}/date/${tomorrowsDate}`),
-      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.page.goto(`${city}/date/${tomorrowsDate}`, { timeout: 60000, waitUntil: 'domcontentloaded' });
     await this.cityHeader.waitFor();
 
     let tomorrowForecastElements = await this.page.$$(
@@ -167,16 +165,15 @@ export class HourlyForecastPage {
       );
       retries++;
     }
-    await expect(tomorrowForecastElements.length).toBeGreaterThanOrEqual(1);
+    expect(tomorrowForecastElements.length).toBeGreaterThanOrEqual(1);
     const tomorrowsForecast = await this.getHourlyData(tomorrowsDate);
-    await expect(tomorrowsForecast.length).toBeGreaterThan(1);
+    expect(tomorrowsForecast.length).toBeGreaterThan(1);
 
     // gets after tomorrow forecast
     const afterTomorrow = new Date();
     afterTomorrow.setDate(afterTomorrow.getDate() + 2);
     const afterTomorrowsDate: string = afterTomorrow.toISOString().slice(0, 10);
-    await this.page.goto(`${city}/date/${afterTomorrowsDate}`),
-      { timeout: 60000, waitUntil: 'domcontentloaded' };
+    await this.page.goto(`${city}/date/${afterTomorrowsDate}`, { timeout: 60000, waitUntil: 'domcontentloaded' });
     await this.cityHeader.waitFor();
 
     let afterTomorrowForecastElements = await this.page.$$(
@@ -194,11 +191,11 @@ export class HourlyForecastPage {
       retries++;
     }
 
-    await expect(afterTomorrowForecastElements.length).toBeGreaterThanOrEqual(
+    expect(afterTomorrowForecastElements.length).toBeGreaterThanOrEqual(
       1
     );
     const afterTomorrowsForecast = await this.getHourlyData(afterTomorrowsDate);
-    await expect(afterTomorrowsForecast.length).toBeGreaterThan(1);
+    expect(afterTomorrowsForecast.length).toBeGreaterThan(1);
 
     const totalForecasts = [
       ...todaysForecast,
