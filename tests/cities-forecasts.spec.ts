@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HourlyForecastPage } from '../page-objects/hourly-forecast-page';
 import fs from 'fs';
 import { cities } from '../utils/cities.json';
