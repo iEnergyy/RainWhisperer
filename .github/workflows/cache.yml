@@ -21,17 +21,24 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run Scraper
         run: npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: always()
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: my-artifacts
+      #     path: |
+      #       playwright-report/
+      #       weather-forecasts/
+      #     retention-days: 30
+      # - name: Cache CSVs
+      #   id: cache-primes
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: weather-forecasts/
+      #     key: weather-forecasts
+      - name: Restore cached csvs
+        id: cache-primes-restore
+        uses: actions/cache/restore@v4
         with:
-          name: my-artifacts
           path: |
-            playwright-report/
-            weather-forecasts/
-          retention-days: 30
-      - name: Cache CSVs
-        id: cache-primes
-        uses: actions/cache@v4
-        with:
-          path: weather-forecasts/
+            weather-forecasts
           key: weather-forecasts
