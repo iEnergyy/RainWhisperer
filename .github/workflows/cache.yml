@@ -29,12 +29,11 @@ jobs:
       #       playwright-report/
       #       weather-forecasts/
       #     retention-days: 30
-      # - name: Cache CSVs
-      #   id: cache-primes
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: weather-forecasts/
-      #     key: weather-forecasts
+      - name: Cache CSVs
+        uses: actions/cache@v4
+        with:
+          path: weather-forecasts/
+          key: weather-forecasts
       - name: Restore cached csvs
         uses: actions/cache/restore@v4
         with:

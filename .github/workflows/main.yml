@@ -1,9 +1,9 @@
 name: Run Weather Scraper
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+  # push:
+  #   branches: [main, master]
+  # pull_request:
+  #   branches: [main, master]
   schedule:
     - cron: '0 15 * * *' # Run every day at 11 AM UTC-4 (15:00 UTC)
 jobs:
