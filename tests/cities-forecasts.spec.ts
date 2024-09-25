@@ -10,10 +10,12 @@ cities.forEach((city) => {
       .toLocaleDateString('en-GB')
       .split('/')
       .join('_');
-    const threeDayForecast = await HourlyForecast.getThreeDaysForecast(
-      city.link
+    const numberOfDays: number = 10;
+    const daysForecast = await HourlyForecast.getNDaysForecast(
+      city.link,
+      numberOfDays
     );
-    const csvData = HourlyForecast.convertToCSV(threeDayForecast);
+    const csvData = HourlyForecast.convertToCSV(daysForecast);
     // Create a directory to store the file if it doesn't exist
     const directory = './weather-forecasts';
     if (!fs.existsSync(directory)) {
@@ -21,7 +23,7 @@ cities.forEach((city) => {
     }
     // write the csv
     fs.writeFileSync(
-      `${directory}/${city.name}_${todaysDate}_3_day_forecast.csv`,
+      `${directory}/${city.name}_${todaysDate}_${numberOfDays}_day_forecast.csv`,
       csvData,
       { encoding: 'utf8' }
     );
