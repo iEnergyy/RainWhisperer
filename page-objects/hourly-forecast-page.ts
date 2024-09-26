@@ -204,6 +204,56 @@ export class HourlyForecastPage {
     ];
     return totalForecasts;
   }
+
+  // Method that gets forecast for N days, using date inputs to run it.
+  async getNDaysForecast(city: string, days: number): Promise<WeatherInfo[]> {
+    const totalForecasts: WeatherInfo[] = [];
+
+    // Get today's date as the starting point
+    const currentDate = new Date();
+
+    for (let i = 0; i < days; i++) {
+      const targetDate = new Date(currentDate);
+      targetDate.setDate(currentDate.getDate() + i);
+      const formattedDate: string = targetDate.toISOString().slice(0, 10); // Format date as YYYY-MM-DD
+
+      // Navigate to the page for the city and date
+      await this.page.goto(`${city}/date/${formattedDate}`, { timeout: 60000, waitUntil: 'domcontentloaded' });
+      await this.cityHeader.waitFor();
+
+      // Retry logic in case forecast data isn't immediately available
+      let forecastElements = await this.page.$$(
+        '#hourly-forecast-table > tbody > tr'
+      );
+
+      const maxRetries = 10;
+      let retries = 0;
+
+      while (forecastElements.length === 0 && retries < maxRetries) {
+        // Wait for a short time before checking again
+        await this.page.waitForTimeout(1000); // Wait for 1 second
+        forecastElements = await this.page.$$(
+          '#hourly-forecast-table > tbody > tr'
+        );
+        retries++;
+      }
+
+      // Check that the forecast for the day is available
+      expect(forecastElements.length).toBeGreaterThanOrEqual(1);
+
+      // Get hourly data for the specific day
+      const dailyForecast = await this.getHourlyData(formattedDate);
+
+      // Verify that the hourly forecast data is not empty
+      expect(dailyForecast.length).toBeGreaterThan(1);
+
+      // Add the day's forecast to the total forecast
+      totalForecasts.push(...dailyForecast);
+    }
+
+    return totalForecasts;
+  }
+
   // TODO: move this method to another class.
   convertToCSV(data: WeatherInfo[]): string {
     // Map the original data to a modified version with custom headers
