@@ -15,23 +15,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install dependencies
-        run: npm ci
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-      - name: Run Scraper
-        run: npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: my-artifacts
-          path: |
-            playwright-report/
-            weather-forecasts/
-          retention-days: 30
+      # - name: Install dependencies
+      #   run: npm ci
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps chromium
+      # - name: Run Scraper
+      #   run: npx playwright test
+      # - uses: actions/upload-artifact@v4
+      #   if: always()
+      #   with:
+      #     name: my-artifacts
+      #     path: |
+      #       playwright-report/
+      #       weather-forecasts/
+      #     retention-days: 30
       - name: Cache CSVs
-        id: cache-primes
         uses: actions/cache@v4
         with:
           path: weather-forecasts/
           key: weather-forecasts
+      # - name: Restore cached csvs
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       weather-forecasts
+      #     key: weather-forecasts
+      #     restore-keys: |
+      #       weather-forecasts
